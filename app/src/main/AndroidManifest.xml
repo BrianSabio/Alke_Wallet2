@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- PERMISO DE RED REQUERIDO POR RETROFIT Y PICASSO -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".WalletApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -10,9 +14,12 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_alkewallet"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AlkeWallet">
+        android:theme="@style/Theme.AlkeWallet"
+        android:usesCleartextTraffic="true">
+
+        <!-- SplashActivity configurada como la actividad inicial (LAUNCHER) -->
         <activity
-            android:name=".splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:noHistory="true"
             android:windowSoftInputMode="adjustResize">
@@ -21,11 +28,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.AuthActivity" />
-        <activity android:name=".home.HomePageActivity" />
-        <activity android:name=".profile.ProfileActivity" />
-        <activity android:name=".transactions.SendMoneyActivity" />
-        <activity android:name=".transactions.RequestMoneyActivity" />
+
+        <activity android:name=".ui.auth.AuthActivity" />
+        <activity android:name=".ui.home.HomePageActivity" />
+        <activity android:name=".ui.profile.ProfileActivity" />
+        <activity android:name=".ui.transactions.SendMoneyActivity" />
+        <activity android:name=".ui.transactions.RequestMoneyActivity" />
+
     </application>
 
 </manifest>

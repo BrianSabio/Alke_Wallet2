@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Usuario Demo",
+      "email": "demo@alke.com",
+      "points": 1000,
+      "avatar": null
+    }
+  ],
+  "transactions": [
+    {
+      "id": 101,
+      "amount": 150.50,
+      "concept": "Para: Juan Pérez - Almuerzo",
+      "date": "2025-02-20",
+      "type": "send",
+      "to_user_id": 2,
+      "from_user_id": 1
+    },
+    {
+      "id": 102,
+      "amount": 300.00,
+      "concept": "De: María Gómez - Pago de servicio",
+      "date": "2025-02-21",
+      "type": "request",
+      "to_user_id": 1,
+      "from_user_id": 3
+    },
+    {
+      "id": 103,
+      "amount": 45.00,
+      "concept": "Para: Carlos Ruiz - Café",
+      "date": "2025-02-22",
+      "type": "send",
+      "to_user_id": 4,
+      "from_user_id": 1
+    }
+  ]
+}

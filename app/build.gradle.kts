@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    // Ya existentes en el proyecto
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
@@ -43,4 +44,25 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+
+    // Retrofit & Gson (Red REST)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+
+    // Room (Persistencia Local)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.compiler)
+
+    // Picasso (Carga Asíncrona de Imágenes)
+    implementation(libs.picasso)
+
+    // Architecture Components: Lifecycle, ViewModel & LiveData
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
+    // Testing Unitario e Integración
+    testImplementation(libs.arch.core.testing)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockwebserver)
 }
