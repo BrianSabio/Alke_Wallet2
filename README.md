@@ -5,7 +5,7 @@ Una billetera digital moderna desarrollada en Kotlin nativo para Android siguien
 ![Kotlin](https://img.shields.io/badge/Language-Kotlin-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Android-green.svg)
 ![SDK](https://img.shields.io/badge/SDK-24%2B-lightgrey.svg)
-![Status](https://img.shields.io/badge/Status-Complete-success.svg)
+![Status](https://img.shields.io/badge/Status-Functional%20(Mock%20Backend)-yellow.svg)
 
 AlkeWallet es una aplicación móvil diseñada para la gestión simulada de finanzas personales. Permite a los usuarios autenticarse, visualizar su saldo actual en tiempo real, revisar un historial detallado de movimientos, gestionar su perfil de usuario con cierre de sesión real y realizar operaciones financieras de envío e ingreso de dinero mediante una interfaz limpia y adaptada a **Edge-to-Edge** (Android 15+).
 
@@ -48,8 +48,8 @@ AlkeWallet es una aplicación móvil diseñada para la gestión simulada de fina
 | **Build System** | Gradle (Kotlin DSL) | AGP 9.3.1 y Version Catalogs (`libs.versions.toml`). |
 | **Arquitectura** | MVVM + Repository | Patrón reactivo recomendado con ViewBinding, ViewModel, LiveData, Repository, Room y Retrofit. |
 | **Red / REST** | Retrofit 2.9.0 | Cliente HTTP para consumo de servicios REST con serializador Gson 2.10.1. |
-| **Persistencia Local** | Room 2.7.0 | Base de datos SQLite reactiva con DAOs para usuarios y transacciones. |
-| **Carga de Imágenes** | Picasso 2.71 | Carga asíncrona y almacenamiento en caché de avatares. |
+| **Persistencia Local** | Room 2.7.0-alpha13 | Base de datos SQLite reactiva con DAOs (versión alpha13 requerida por compatibilidad de metadata con Kotlin 2.0+). |
+| **Carga de Imágenes** | Picasso 2.71828 | Carga asíncrona y almacenamiento en caché de avatares. |
 | **Lifecycle** | LiveData / ViewModel 2.7.0 | Gestión de estado consciente del ciclo de vida. |
 | **UI Framework** | XML Layouts & ViewBinding | Vistas compuestas mediante Material Design 3 e interacción tipada sin `findViewById`. |
 
@@ -95,7 +95,7 @@ AlkeWallet/
 ### Pasos para clonar y ejecutar
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/BrianSabio/Alke_Wallet.git
+   git clone https://github.com/BrianSabio/Alke_Wallet2.git
    ```
 2. Abrir el proyecto en Android Studio.
 3. Sincronizar los archivos de Gradle.
@@ -157,6 +157,11 @@ private fun setupWindowInsets() {
 }
 ```
 
+### Mecanismos de Robustez de Datos
+1. **Filtrado anti-duplicados por `remoteId`:** En `WalletRepository.fetchRemoteTransactions()`, antes de insertar las transacciones sincronizadas desde la API REST, se consulta `transactionDao.getExistingRemoteIds(userId)` para ignorar DTOs cuyas transacciones ya fueron persistidas anteriormente en Room.
+2. **Guard de sesión preventivo:** En `HomePageActivity.onCreate()`, se verifica `repository.getStoredUserId()` antes de inflar View Binding; si el ID es `-1` (sesión no válida), redirige inmediatamente a `AuthActivity` sin tocar `binding`, evitando un crash por propiedad no inicializada.
+3. **Sincronización automática en `onResume()`:** `HomePageActivity` sobreescribe `onResume()` para invocar `homeViewModel.refreshData()`, garantizando que el historial se actualice automáticamente al regresar de las pantallas de transacciones.
+
 ---
 
 ## Pruebas Unitarias JVM
@@ -200,6 +205,7 @@ Se cuenta con una suite de **11 pruebas unitarias JVM** en `src/test`, ejecutabl
 | Cobertura de Pruebas Unitarias | ✅ | 11 pruebas JVM ejecutables sin dependencias de Android framework (Mockito + MockWebServer). |
 | Persistencia Reactiva y Red Funcional | ✅ | Integración completa MVVM + Repository + Retrofit + Room. |
 | Conexión funcional con API REST externa (RT-02) | ⚠️ Parcial | Arquitectura Retrofit 100% implementada y testeada vía MockWebServer; el servidor de demostración provisto por el curso fue dado de baja (NXDOMAIN confirmado). Validación end-to-end realizada contra servidor mock local (ver sección 12). |
+| Seguridad de datos en tránsito - HTTPS (RT-07) | ⚠️ Parcial | La comunicación usa HTTP plano (`usesCleartextTraffic="true"`) porque ni el servidor de demostración original ni el mock local de desarrollo exponen HTTPS. La arquitectura Retrofit soporta HTTPS sin cambios de código; bastaría con apuntar `BASE_URL` a un endpoint TLS para cumplir el requerimiento en un entorno de producción real. |
 
 ---
 
@@ -225,7 +231,7 @@ Se cuenta con una suite de **11 pruebas unitarias JVM** en `src/test`, ejecutabl
 - **targetSdk:** 37
 - **minSdk:** 24
 - **viewBinding:** Habilitado
-- **Dependencias Clave:** Retrofit 2.9.0, Room 2.7.0, Picasso 2.71828, Lifecycle ViewModel & LiveData 2.7.0, Material Components 1.10.0.
+- **Dependencias Clave:** Retrofit 2.9.0, Room 2.7.0-alpha13, Picasso 2.71828, Lifecycle ViewModel & LiveData 2.7.0, Material Components 1.10.0.
 
 ### `AndroidManifest.xml`
 - `SplashActivity` configurada como actividad de lanzamiento (`LAUNCHER`).
@@ -234,7 +240,7 @@ Se cuenta con una suite de **11 pruebas unitarias JVM** en `src/test`, ejecutabl
 
 ---
 
-## 12. Limitaciones Conocidas y Estrategia de Validación de Red
+## Limitaciones Conocidas y Estrategia de Validación de Red
 
 1. **Backend original dado de baja.** La API REST provista para el proyecto (`wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com`) dejó de estar disponible durante el desarrollo. Se confirmó mediante resolución DNS que el dominio ya no existe:
 
@@ -310,5 +316,5 @@ El mock corre en HTTP plano (no HTTPS), compatible con `android:usesCleartextTra
 ---
 
 ## Contacto y Soporte
-- **GitHub Issues:** [Reportar un problema](https://github.com/BrianSabio/Alke_Wallet/issues)
+- **GitHub Issues:** [Reportar un problema](https://github.com/BrianSabio/Alke_Wallet2/issues)
 - **LinkedIn:** [Brian Sabio](https://www.linkedin.com/in/brian-ezequiel-sabio/)

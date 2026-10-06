@@ -110,6 +110,10 @@ class WalletRepository(
         })
     }
 
+    /**
+     * Sincroniza las transacciones remotas del usuario con Room.
+     * Filtra los DTOs cuyo ID ya exista localmente para prevenir duplicidad.
+     */
     fun fetchRemoteTransactions(userId: Int) {
         val token = sessionManager.getToken() ?: return
         val bearerToken = "Bearer $token"
@@ -120,6 +124,7 @@ class WalletRepository(
                     val dtoList = response.body()!!
 
                     CoroutineScope(Dispatchers.IO).launch {
+                        // Mecanismo anti-duplicados: consultar remote_ids locales existentes
                         val existingRemoteIds = transactionDao.getExistingRemoteIds(userId).toSet()
 
                         val newTransactions = dtoList.filter { dto ->
@@ -148,6 +153,10 @@ class WalletRepository(
         })
     }
 
+    /**
+     * Envía o solicita una transacción remota y actualiza tanto la tabla de transacciones
+     * como la entidad [User] en Room si la respuesta incluye el saldo actualizado.
+     */
     fun sendRemoteTransaction(
         amount: Double,
         concept: String,

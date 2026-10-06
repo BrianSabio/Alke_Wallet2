@@ -6,6 +6,10 @@ import com.alkewallet.data.local.WalletDatabase
 import com.alkewallet.data.remote.RetrofitClient
 import com.alkewallet.data.repository.WalletRepository
 
+/**
+ * Clase Application de Alke Wallet.
+ * Mantiene la instancia Singleton de [WalletRepository] disponible para la inyección en ViewModels.
+ */
 class WalletApplication : Application() {
 
     private val database by lazy { WalletDatabase.getDatabase(this) }

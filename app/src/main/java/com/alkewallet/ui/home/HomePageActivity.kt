@@ -29,6 +29,7 @@ class HomePageActivity : AppCompatActivity() {
         val repository = (application as WalletApplication).repository
         val userId = repository.getStoredUserId()
 
+        // Guard de sesión preventivo: validar sesión antes de inflar View Binding
         if (userId == -1) {
             val intent = Intent(this, AuthActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
