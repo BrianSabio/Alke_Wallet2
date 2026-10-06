@@ -119,19 +119,25 @@ class WalletRepository(
                 if (response.isSuccessful && response.body() != null) {
                     val dtoList = response.body()!!
 
-                    val transactions = dtoList.map { dto ->
-                        Transaction(
-                            remoteId = dto.id,
-                            amount = dto.amount,
-                            concept = dto.concept,
-                            date = dto.date ?: "Fecha no disponible",
-                            type = dto.type,
-                            userId = userId
-                        )
-                    }
-
                     CoroutineScope(Dispatchers.IO).launch {
-                        transactionDao.insertAllTransactions(transactions)
+                        val existingRemoteIds = transactionDao.getExistingRemoteIds(userId).toSet()
+
+                        val newTransactions = dtoList.filter { dto ->
+                            dto.id == null || !existingRemoteIds.contains(dto.id)
+                        }.map { dto ->
+                            Transaction(
+                                remoteId = dto.id,
+                                amount = dto.amount,
+                                concept = dto.concept,
+                                date = dto.date ?: "Fecha no disponible",
+                                type = dto.type,
+                                userId = userId
+                            )
+                        }
+
+                        if (newTransactions.isNotEmpty()) {
+                            transactionDao.insertAllTransactions(newTransactions)
+                        }
                     }
                 }
             }
@@ -180,6 +186,20 @@ class WalletRepository(
 
                     CoroutineScope(Dispatchers.IO).launch {
                         transactionDao.insertTransaction(localTransaction)
+
+                        // 1. Si la respuesta incluye el UserDto actualizado, guardarlo en Room
+                        val updatedUserDto = responseDto.user
+                        if (updatedUserDto != null) {
+                            val updatedUser = User(
+                                id = updatedUserDto.id,
+                                name = updatedUserDto.name,
+                                email = updatedUserDto.email,
+                                points = updatedUserDto.points ?: 0,
+                                avatarUrl = updatedUserDto.avatarUrl
+                            )
+                            userDao.insertUser(updatedUser)
+                        }
+
                         withContext(Dispatchers.Main) {
                             callback(WalletResult.Success(localTransaction))
                         }

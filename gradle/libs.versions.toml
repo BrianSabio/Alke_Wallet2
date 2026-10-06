@@ -10,13 +10,14 @@ activityKtx = "1.8.0"
 fragmentKtx = "1.8.2"
 constraintlayout = "2.1.4"
 retrofit = "2.9.0"
-room = "2.6.1"
+room = "2.7.0-alpha13"
 picasso = "2.71828"
 lifecycle = "2.7.0"
 archTesting = "2.2.0"
 mockito = "5.11.0"
 mockwebserver = "4.12.0"
 ksp = "2.1.0-1.0.29"
+kotlinAndroid = "2.0.21"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,3 +45,4 @@ mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", versio
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }

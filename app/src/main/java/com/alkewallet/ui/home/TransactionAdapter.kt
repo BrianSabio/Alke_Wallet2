@@ -9,9 +9,8 @@ import com.alkewallet.data.model.Transaction
 import com.alkewallet.databinding.ItemTransactionBinding
 import java.util.Locale
 
-class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
-
-    private var transactions: List<Transaction> = emptyList()
+class TransactionAdapter(private var transactions: List<Transaction> = emptyList()) :
+    RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ItemTransactionBinding) : RecyclerView.ViewHolder(binding.root)
 

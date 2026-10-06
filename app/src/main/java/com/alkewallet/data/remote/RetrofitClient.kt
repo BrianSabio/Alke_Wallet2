@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/api-docs/"
+    private const val BASE_URL = "http://192.168.1.24:3000/"
 
     val instance: WalletApiService by lazy {
         val retrofit = Retrofit.Builder()

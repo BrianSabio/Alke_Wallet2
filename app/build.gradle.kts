@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -31,6 +33,13 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+tasks.withType<Test> {
+    systemProperty("net.bytebuddy.experimental", "true")
 }
 
 dependencies {
@@ -52,7 +61,7 @@ dependencies {
     // Room (Persistencia Local)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    annotationProcessor(libs.room.compiler)
+    kapt(libs.room.compiler)
 
     // Picasso (Carga Asíncrona de Imágenes)
     implementation(libs.picasso)

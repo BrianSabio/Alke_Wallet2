@@ -17,9 +17,9 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="@dimen/size_icon"
-            android:layout_height="@dimen/size_icon"
-            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
             android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.alkewallet.R
 import com.alkewallet.WalletApplication
 import com.alkewallet.data.model.WalletResult
 import com.alkewallet.databinding.FragmentSignupBinding
@@ -52,7 +51,7 @@ class SignupFragment : Fragment() {
         }
 
         binding.tvYaTienesCuenta.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            (activity as? AuthActivity)?.navigateTo(LoginFragment())
         }
 
         authViewModel.authState.observe(viewLifecycleOwner) { result ->

@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Mock Server
+/mock-server/node_modules/
+/mock-server/npm-debug.log
+/mock-server/.env
+/mock-server/db.json

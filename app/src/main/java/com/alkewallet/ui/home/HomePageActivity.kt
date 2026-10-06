@@ -8,6 +8,10 @@ import com.alkewallet.R
 import com.alkewallet.WalletApplication
 import com.alkewallet.databinding.ActivityHomeBinding
 import com.alkewallet.ui.auth.AuthActivity
+import com.alkewallet.ui.profile.ProfileActivity
+import com.alkewallet.ui.transactions.RequestMoneyActivity
+import com.alkewallet.ui.transactions.SendMoneyActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 
 class HomePageActivity : AppCompatActivity() {
@@ -37,7 +41,20 @@ class HomePageActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnEnviarDinero.setOnClickListener {
+            startActivity(Intent(this, SendMoneyActivity::class.java))
+        }
+
+        binding.btnIngresarDinero.setOnClickListener {
+            startActivity(Intent(this, RequestMoneyActivity::class.java))
+        }
+
+        binding.ivProfile.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
+
         val adapter = TransactionAdapter()
+        binding.rvTransactions.layoutManager = LinearLayoutManager(this)
         binding.rvTransactions.adapter = adapter
 
         homeViewModel.userLiveData.observe(this) { user ->
@@ -59,6 +76,11 @@ class HomePageActivity : AppCompatActivity() {
             adapter.updateTransactions(transactions)
         }
 
+        homeViewModel.refreshData()
+    }
+
+    override fun onResume() {
+        super.onResume()
         homeViewModel.refreshData()
     }
 }
