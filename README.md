@@ -310,7 +310,7 @@ El mock corre en HTTP plano (no HTTPS), compatible con `android:usesCleartextTra
 
 ## Autores y Contribuciones
 - **Desarrollador:** Brian Sabio
-- **Contribuciones:** Este proyecto es una entrega técnica del Módulo 4 y 5 del curso del SENCE "DESARROLLO DE APLICACIONES MÓVILES ANDROID TRAINEE'. No se aceptan Pull Requests externos en esta etapa.
+- **Contribuciones:** Este proyecto es una entrega técnica de los módulos 4, 5 y 6 del curso del SENCE "DESARROLLO DE APLICACIONES MÓVILES ANDROID TRAINEE'. No se aceptan Pull Requests externos en esta etapa.
 - **Licencia:** MIT
 
 ---
